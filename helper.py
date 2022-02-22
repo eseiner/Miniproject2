@@ -15,3 +15,20 @@ def get_highest_rated():
     avg_ratings = avg_ratings.sort_values(by=['Rating'], ascending=False)
     ids = list(avg_ratings['Movie ID'])
     return ids
+
+def get_choice_of_movies():
+    # Id's of selected movies
+    ids = [1127, 318, 196, 405, 173, 1484, 1219, 902, 820, 780]
+    return ids
+
+def get_comedy_movies():
+    ids = [1, 25, 41, 67, 70, 91, 94, 138, 154, 163]
+    return ids
+
+def get_musical_movies():
+    ids = [21, 71, 95, 99, 143, 418, 419, 451, 543, 1459]
+    return ids
+
+def get_scifi_movies():
+    ids = [50, 62, 82, 89, 96, 121, 135, 141, 172, 181]
+    return ids
