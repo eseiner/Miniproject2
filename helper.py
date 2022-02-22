@@ -15,8 +15,7 @@ def get_highest_rated():
     id_rating = data[['Movie ID', 'Rating']]
     avg_ratings = id_rating.groupby(['Movie ID'], as_index=False).mean()
     avg_ratings = avg_ratings.sort_values(by=['Rating'], ascending=False)
-    ids = list(avg_ratings['Movie ID'])
-    ids = list(np.array(ids)-1)
+    ids = list(np.array(avg_ratings['Movie ID'])-1)
     return ids
 
 def get_plotting_kwargs():
