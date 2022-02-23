@@ -59,6 +59,7 @@ def get_scifi_movies():
     return ids
 
 def mean_center_rows(V):
+    # "hello"
     V_mean_ctr = np.zeros_like(V)
     for row_num in range(V.shape[0]):
         curr_mean = sum(V[row_num]) / V.shape[1]
