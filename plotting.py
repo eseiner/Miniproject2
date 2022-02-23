@@ -2,20 +2,26 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from helper import get_plotting_kwargs
+import seaborn as sns;
 
 
 
-def plot(V_proj, idx, title):
+def plot(V_tilde, idx, title):
     ''' Takes in indicies of movies to annotate and plots'''
-    movies = pd.read_csv('data/movies.csv')
+    movies_data = pd.read_csv('data/movies.csv')
+    ID_column = 'Movie ID'
+    title_column = 'Movie Title'
     avg_ratings, num_ratings = get_plotting_kwargs()
     plt.figure(figsize=(15, 12))
-    plt.scatter(V_proj[0], V_proj[1], s=num_ratings, c=avg_ratings, cmap=plt.get_cmap('RdYlGn'), alpha=0.6)
-    plt.colorbar().set_label("Average rating")
-    plt.title(title)
-    plt.xlabel('Dimension 1')
-    plt.ylabel('Dimension 2')
-    for movie_id, title in movies[['Movie ID', 'Movie Title']].values[idx]:
-        x, y = V_proj[0][movie_id-1], V_proj[1][movie_id-1]
-        plt.annotate(title, xy=(x, y), horizontalalignment='center', verticalalignment='center', fontsize=8, rotation=0, arrowprops=dict(arrowstyle='-', lw=1, alpha=0.5))
-    plt.show()
+    sns.set()
+    ax = sns.scatterplot(V_tilde[0], V_tilde[1], hue=avg_ratings, size=num_ratings, palette='rocket_r')
+    sm = plt.cm.ScalarMappable(cmap='rocket_r')
+    sm.set_array([1, 5])
+    # Remove the legend and add a colorbar
+    ax.get_legend().remove()
+    ax.figure.colorbar(sm)
+    for movie in movies_data[ID_column].values[idx]:
+        movie_id = movie - 1
+        movie_title = movies_data[title_column].iloc[movie_id]
+        label_x, label_y = V_tilde[0][movie_id], V_tilde[1][movie_id]
+        plt.annotate(movie_title, xy=(label_x, label_y), horizontalalignment='center', verticalalignment='center', color='black', fontsize=12, alpha=0.7)
