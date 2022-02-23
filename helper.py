@@ -20,17 +20,22 @@ def get_highest_rated():
 
 def get_plotting_kwargs():
     data = pd.read_csv('data/data.csv')
-    data = data.to_numpy()
-    N = max(data[:,1]).astype(int)
-    num_ratings = np.zeros(N)
-    tot_ratings = np.zeros(N)
-    for movie in data:
-        movie_id = movie[1]-1
-        rating = movie[2]
-        num_ratings[movie_id] += 1
-        tot_ratings[movie_id] += rating
-    avg_ratings = tot_ratings / num_ratings
-    return (avg_ratings, num_ratings)
+    length = data['Movie ID'].nunique()
+    
+    # Index represents the Movie ID
+    ratings_count = np.zeros(length)
+    ratings_sum = np.zeros(length)
+    for index, row in data.iterrows():
+        mov_index = row['Movie ID'] - 1
+        rating = row['Rating']
+        ratings_count[mov_index] += 1
+        ratings_sum[mov_index] += rating
+    avg = ratings_sum/ratings_count
+    #Index of each array represents movie_id (0-indexed)
+    return (avg, ratings_count)
+    
+
+
 
 
 def get_choice_of_movies():
